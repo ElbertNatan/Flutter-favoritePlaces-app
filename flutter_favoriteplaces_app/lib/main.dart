@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_favoriteplaces_app/screens/places.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Great Places',
       theme: theme,
-      home: ...,
+      home: const PlacesScreen(),
     );
   }
 }
