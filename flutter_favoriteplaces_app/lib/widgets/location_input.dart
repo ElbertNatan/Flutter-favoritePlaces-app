@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_favoriteplaces_app/models/place.dart';
 import 'package:location/location.dart';
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({super.key});
+  const LocationInput({super.key, required this.onSelectLocation});
+
+  final void Function(PlaceLocation location) onSelectLocation;
 
   @override
   State<LocationInput> createState() {
@@ -11,7 +14,7 @@ class LocationInput extends StatefulWidget {
 }
 
 class _LocationInputState extends State<LocationInput> {
-  Location? _pickedLocation;
+  PlaceLocation? _pickedLocation;
   var _isGettingLocation = false;
 
   void _getCurrentLocation() async {
@@ -42,11 +45,19 @@ class _LocationInputState extends State<LocationInput> {
     }
 
     locationData = await location.getLocation();
+    final lat = locationData.latitude;
+    final lon = locationData.longitude;
+    if (lat == null || lon == null) {
+      return;
+    }
 
     setState(() {
       _isGettingLocation = false;
+      _pickedLocation = PlaceLocation(latitude: lat, longitude: lon);
     });
 
+    // Aqui seria feito uma api pro google para poder usar o google maps, porem é um serviço pago
+    widget.onSelectLocation(_pickedLocation!);
     print(locationData.latitude);
     print(locationData.longitude);
   }
@@ -62,7 +73,7 @@ class _LocationInputState extends State<LocationInput> {
           .copyWith(color: Theme.of(context).colorScheme.onBackground),
     );
 
-    if(_isGettingLocation){
+    if (_isGettingLocation) {
       previewContent = const CircularProgressIndicator();
     }
 

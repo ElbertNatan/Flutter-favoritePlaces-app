@@ -34,6 +34,7 @@ class PlacesList extends StatelessWidget {
               .titleMedium!
               .copyWith(color: Theme.of(context).colorScheme.onBackground),
         ),
+        subtitle: Text("${places[index].location.latitude}" + " - " + "${places[index].location.longitude}"),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
